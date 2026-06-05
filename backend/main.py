@@ -12,8 +12,10 @@ Routes:
 """
 
 import logging
+import re
 from fastapi.responses import StreamingResponse
 import json
+import re
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -288,8 +290,10 @@ async def vapi_custom_llm(payload: dict):
                 user_email = None
                 user_name = None
                 for m in messages:
-                    if m.get("role") == "user" and "@" in m.get("content", ""):
-                        user_email = m["content"].strip()
+                    if m.get("role") == "user":
+                        match = re.search(r'[\w.+-]+@[\w-]+\.[a-z]{2,}', m.get("content", ""))
+                        if match:
+                            user_email = match.group(0)
                     # Name is usually the message after assistant asks for name
                 for i, m in enumerate(messages):
                     if (m.get("role") == "assistant"
@@ -300,7 +304,12 @@ async def vapi_custom_llm(payload: dict):
                         user_name = messages[i+1]["content"].strip()
 
                 # If we have all 3 — trigger actual booking
-                if has_slot and user_email and user_name:
+                booking_already_confirmed = any(
+                    "confirmed your booking" in m.get("content", "").lower()
+                    for m in messages
+                    if m.get("role") == "assistant"
+                )
+                if has_slot and user_email and user_name and not booking_already_confirmed:
                     # Find the confirmed slot from history
                     slots = await get_available_slots(days_ahead=7)
                     confirmed_slot = slots[0] if slots else None
