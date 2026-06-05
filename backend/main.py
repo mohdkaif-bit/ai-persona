@@ -237,7 +237,7 @@ import json
 @app.post("/voice/chat/completions")
 async def vapi_custom_llm(payload: dict):
     from backend.services.llm_service import get_persona_response
-    from backend.services.calendar_service import get_available_slots
+    from backend.services.calendar_service import get_available_slots, book_meeting
     from backend.models.schemas import Message
 
     try:
@@ -258,8 +258,88 @@ async def vapi_custom_llm(payload: dict):
                     if m.get("role") in ("user", "assistant") and m.get("content")
                 ]
 
+                # Extract full conversation text for context
+                full_history_text = " ".join(
+                    m["content"] for m in messages
+                    if m.get("content")
+                )
+
                 augmented_message = user_message
-                if is_booking_intent(user_message):
+
+                # Check if we already have slot + name + email in conversation
+                # and user is confirming booking
+                has_slot = any(
+                    kw in full_history_text.lower()
+                    for kw in ["9 am", "10 am", "11 am", "monday", "tuesday",
+                               "wednesday", "thursday", "friday", "june", "july"]
+                )
+                has_name = any(
+                    m.get("role") == "assistant" and "name" in m.get("content", "").lower()
+                    for m in messages
+                )
+                has_email = any(
+                    "@" in m.get("content", "")
+                    for m in messages
+                    if m.get("role") == "user"
+                )
+
+                # Extract email from conversation
+                user_email = None
+                user_name = None
+                for m in messages:
+                    if m.get("role") == "user" and "@" in m.get("content", ""):
+                        user_email = m["content"].strip()
+                    # Name is usually the message after assistant asks for name
+                for i, m in enumerate(messages):
+                    if (m.get("role") == "assistant"
+                            and "name" in m.get("content", "").lower()
+                            and i + 1 < len(messages)
+                            and messages[i+1].get("role") == "user"
+                            and "@" not in messages[i+1].get("content", "")):
+                        user_name = messages[i+1]["content"].strip()
+
+                # If we have all 3 — trigger actual booking
+                if has_slot and user_email and user_name:
+                    # Find the confirmed slot from history
+                    slots = await get_available_slots(days_ahead=7)
+                    confirmed_slot = slots[0] if slots else None
+
+                    # Try to match slot from conversation
+                    for m in messages:
+                        content = m.get("content", "").lower()
+                        for slot in slots:
+                            display_lower = slot.display.lower()
+                            words = display_lower.split()
+                            if any(w in content for w in words if len(w) > 3):
+                                confirmed_slot = slot
+                                break
+
+                    if confirmed_slot:
+                        try:
+                            result = await book_meeting(
+                                name=user_name,
+                                email=user_email,
+                                slot_start=confirmed_slot.start,
+                                slot_end=confirmed_slot.end,
+                                notes="Booked via voice agent"
+                            )
+                            reply = (
+                                f"Perfect, I've confirmed your booking for "
+                                f"{confirmed_slot.display}. "
+                                f"A confirmation has been sent to {user_email}. "
+                                f"Looking forward to speaking with you!"
+                            )
+                        except Exception as e:
+                            logger.error(f"Booking failed: {e}")
+                            reply = (
+                                f"I had trouble confirming the booking. "
+                                f"Please book directly at app.cal.com/mohd-kaif-ryjbbg"
+                            )
+                    else:
+                        reply = "I couldn't match a slot. Please book directly at app.cal.com/mohd-kaif-ryjbbg"
+
+                elif is_booking_intent(user_message):
+                    # Fetch and propose slots
                     slots = await get_available_slots(days_ahead=7)
                     if slots:
                         slot_lines = ", ".join(s.display for s in slots[:3])
@@ -268,19 +348,24 @@ async def vapi_custom_llm(payload: dict):
                             f"[SYSTEM: Available slots: {slot_lines}. "
                             f"Propose these naturally. Keep it brief — voice call.]"
                         )
-
-                reply, _ = get_persona_response(
-                    user_message=augmented_message,
-                    history=history,
-                    top_k=3,
-                    use_reranker=False
-                )
+                    reply, _ = get_persona_response(
+                        user_message=augmented_message,
+                        history=history,
+                        top_k=3,
+                        use_reranker=False
+                    )
+                else:
+                    reply, _ = get_persona_response(
+                        user_message=augmented_message,
+                        history=history,
+                        top_k=3,
+                        use_reranker=False
+                    )
 
     except Exception as e:
         logger.error(f"Custom LLM error: {e}", exc_info=True)
         reply = "I ran into a technical issue. Please try again."
 
-    # Stream response — Vapi expects SSE streaming format
     async def stream():
         chunk = {
             "id": "chatcmpl-kaif",
@@ -292,8 +377,6 @@ async def vapi_custom_llm(payload: dict):
             }]
         }
         yield f"data: {json.dumps(chunk)}\n\n"
-
-        # Final chunk
         final = {
             "id": "chatcmpl-kaif",
             "object": "chat.completion.chunk",
@@ -314,7 +397,6 @@ async def vapi_custom_llm(payload: dict):
             "Connection": "keep-alive",
         }
     )
-
 # ─────────────────────────────────────────
 # CALENDAR ROUTES
 # ─────────────────────────────────────────
