@@ -12,6 +12,8 @@ Routes:
 """
 
 import logging
+from fastapi.responses import StreamingResponse
+import json
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -224,70 +226,88 @@ async def vapi_webhook(payload: dict):
             }
         }
 
+from fastapi.responses import StreamingResponse
+import json
+
 @app.post("/voice/chat/completions")
 async def vapi_custom_llm(payload: dict):
-    """
-    Vapi Custom LLM endpoint — OpenAI-compatible format.
-    Called when Vapi is configured with Custom LLM provider.
-    """
     from backend.services.llm_service import get_persona_response
     from backend.services.calendar_service import get_available_slots
     from backend.models.schemas import Message
 
     try:
         messages = payload.get("messages", [])
-
         user_messages = [m for m in messages if m.get("role") == "user"]
+
         if not user_messages:
             reply = "Hi! I'm Kaif's AI representative. What would you like to know?"
         else:
             user_message = user_messages[-1].get("content", "")
 
-            history = [
-                Message(role=m["role"], content=m["content"])
-                for m in messages[:-1]
-                if m.get("role") in ("user", "assistant") and m.get("content")
-            ]
+            if not user_message.strip():
+                reply = "I didn't catch that. Could you repeat?"
+            else:
+                history = [
+                    Message(role=m["role"], content=m["content"])
+                    for m in messages[:-1]
+                    if m.get("role") in ("user", "assistant") and m.get("content")
+                ]
 
-            augmented_message = user_message
-            if is_booking_intent(user_message):
-                slots = await get_available_slots(days_ahead=7)
-                if slots:
-                    slot_lines = ", ".join(s.display for s in slots[:3])
-                    augmented_message = (
-                        f"{user_message}\n\n"
-                        f"[SYSTEM: Available slots: {slot_lines}. "
-                        f"Propose these naturally. Keep it brief — this is a voice call.]"
-                    )
+                augmented_message = user_message
+                if is_booking_intent(user_message):
+                    slots = await get_available_slots(days_ahead=7)
+                    if slots:
+                        slot_lines = ", ".join(s.display for s in slots[:3])
+                        augmented_message = (
+                            f"{user_message}\n\n"
+                            f"[SYSTEM: Available slots: {slot_lines}. "
+                            f"Propose these naturally. Keep it brief — voice call.]"
+                        )
 
-            reply, _ = get_persona_response(
-                user_message=augmented_message,
-                history=history,
-                top_k=4
-            )
-
-        return {
-            "id": "chatcmpl-kaif",
-            "object": "chat.completion",
-            "choices": [{
-                "index": 0,
-                "message": {"role": "assistant", "content": reply},
-                "finish_reason": "stop"
-            }],
-            "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
-        }
+                reply, _ = get_persona_response(
+                    user_message=augmented_message,
+                    history=history,
+                    top_k=3
+                )
 
     except Exception as e:
         logger.error(f"Custom LLM error: {e}", exc_info=True)
-        return {
-            "id": "chatcmpl-error",
-            "object": "chat.completion",
+        reply = "I ran into a technical issue. Please try again."
+
+    # Stream response — Vapi expects SSE streaming format
+    async def stream():
+        chunk = {
+            "id": "chatcmpl-kaif",
+            "object": "chat.completion.chunk",
             "choices": [{
                 "index": 0,
-                "message": {"role": "assistant", "content": "I ran into a technical issue. Please try again."},
+                "delta": {"role": "assistant", "content": reply},
+                "finish_reason": None
+            }]
+        }
+        yield f"data: {json.dumps(chunk)}\n\n"
+
+        # Final chunk
+        final = {
+            "id": "chatcmpl-kaif",
+            "object": "chat.completion.chunk",
+            "choices": [{
+                "index": 0,
+                "delta": {},
                 "finish_reason": "stop"
             }]
         }
+        yield f"data: {json.dumps(final)}\n\n"
+        yield "data: [DONE]\n\n"
+
+    return StreamingResponse(
+        stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+        }
+    )
 
 # ─────────────────────────────────────────
 # CALENDAR ROUTES
