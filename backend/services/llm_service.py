@@ -74,7 +74,8 @@ def build_groq_messages(
 def get_persona_response(
     user_message: str,
     history: Optional[List[Message]] = None,
-    top_k: int = 5
+    top_k: int = 5,
+    use_reranker: bool = True
 ) -> tuple[str, List[str]]:
     """
     Full pipeline: retrieve context → call Groq → return response.
@@ -83,7 +84,7 @@ def get_persona_response(
         (response_text, list_of_retrieved_sections)
     """
     # Step 1: Retrieve relevant context
-    chunks = retrieve(user_message, top_k=top_k)
+    chunks = retrieve(user_message, top_k=top_k, use_reranker=use_reranker)
     context = format_context(chunks)
     retrieved_sections = [
         f"{c['metadata'].get('section')} — {c['metadata'].get('sub_section', '')}"

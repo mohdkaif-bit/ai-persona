@@ -189,6 +189,11 @@ async def vapi_webhook(payload: dict):
 
         user_message = user_messages[-1].get("content", "")
 
+        if not user_message.strip():
+            return {"status": "ok"}
+
+        # Build history
+
         # Build history
         history = [
             Message(role=m["role"], content=m["content"])
@@ -267,7 +272,8 @@ async def vapi_custom_llm(payload: dict):
                 reply, _ = get_persona_response(
                     user_message=augmented_message,
                     history=history,
-                    top_k=3
+                    top_k=3,
+                    use_reranker=False
                 )
 
     except Exception as e:
