@@ -218,7 +218,8 @@ async def vapi_webhook(payload: dict):
         reply, _ = get_persona_response(
             user_message=augmented_message,
             history=history,
-            top_k=4
+            top_k=4,
+            use_reranker=False
         )
 
         return {"response": {"content": reply}}
