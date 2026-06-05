@@ -309,7 +309,11 @@ async def vapi_custom_llm(payload: dict):
                     for m in messages
                     if m.get("role") == "assistant"
                 )
-                if has_slot and user_email and user_name and not booking_already_confirmed:
+                user_confirming = any(
+                    kw in user_message.lower()
+                    for kw in ["yes", "confirm", "book it", "go ahead", "that works", "sounds good"]
+                )
+                if has_slot and user_email and user_name and not booking_already_confirmed and user_confirming:
                     # Find the confirmed slot from history
                     slots = await get_available_slots(days_ahead=7)
                     confirmed_slot = slots[0] if slots else None
