@@ -224,6 +224,70 @@ async def vapi_webhook(payload: dict):
             }
         }
 
+@app.post("/voice/chat/completions")
+async def vapi_custom_llm(payload: dict):
+    """
+    Vapi Custom LLM endpoint — OpenAI-compatible format.
+    Called when Vapi is configured with Custom LLM provider.
+    """
+    from backend.services.llm_service import get_persona_response
+    from backend.services.calendar_service import get_available_slots
+    from backend.models.schemas import Message
+
+    try:
+        messages = payload.get("messages", [])
+
+        user_messages = [m for m in messages if m.get("role") == "user"]
+        if not user_messages:
+            reply = "Hi! I'm Kaif's AI representative. What would you like to know?"
+        else:
+            user_message = user_messages[-1].get("content", "")
+
+            history = [
+                Message(role=m["role"], content=m["content"])
+                for m in messages[:-1]
+                if m.get("role") in ("user", "assistant") and m.get("content")
+            ]
+
+            augmented_message = user_message
+            if is_booking_intent(user_message):
+                slots = await get_available_slots(days_ahead=7)
+                if slots:
+                    slot_lines = ", ".join(s.display for s in slots[:3])
+                    augmented_message = (
+                        f"{user_message}\n\n"
+                        f"[SYSTEM: Available slots: {slot_lines}. "
+                        f"Propose these naturally. Keep it brief — this is a voice call.]"
+                    )
+
+            reply, _ = get_persona_response(
+                user_message=augmented_message,
+                history=history,
+                top_k=4
+            )
+
+        return {
+            "id": "chatcmpl-kaif",
+            "object": "chat.completion",
+            "choices": [{
+                "index": 0,
+                "message": {"role": "assistant", "content": reply},
+                "finish_reason": "stop"
+            }],
+            "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
+        }
+
+    except Exception as e:
+        logger.error(f"Custom LLM error: {e}", exc_info=True)
+        return {
+            "id": "chatcmpl-error",
+            "object": "chat.completion",
+            "choices": [{
+                "index": 0,
+                "message": {"role": "assistant", "content": "I ran into a technical issue. Please try again."},
+                "finish_reason": "stop"
+            }]
+        }
 
 # ─────────────────────────────────────────
 # CALENDAR ROUTES
