@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+
+# Next.js
+frontend/.next/
+frontend/node_modules/
+
+# Keep chroma_db (needed for Railway deploy)
+# chroma_db is intentionally NOT ignored
