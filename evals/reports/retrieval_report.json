@@ -1,0 +1,637 @@
+{
+  "summary": {
+    "total_questions": 25,
+    "precision@1": 0.92,
+    "precision@3": 0.72,
+    "precision@5": 0.696,
+    "recall@1": 0.3667,
+    "recall@3": 0.6713,
+    "recall@5": 0.7827,
+    "mrr": 0.9533,
+    "hit_rate@1": 0.92,
+    "hit_rate@3": 1.0,
+    "hit_rate@5": 1.0
+  },
+  "results": [
+    {
+      "question": "Tell me about Mohd Kaif.",
+      "expected": [
+        "faq",
+        "personal",
+        "education"
+      ],
+      "retrieved": [
+        "faq",
+        "personal",
+        "resume",
+        "github",
+        "persona_guidelines"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.4,
+      "recall@1": 0.333,
+      "recall@3": 0.667,
+      "recall@5": 0.667,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "Which university does Kaif attend?",
+      "expected": [
+        "faq",
+        "personal",
+        "resume",
+        "education"
+      ],
+      "retrieved": [
+        "faq",
+        "personal",
+        "github",
+        "resume",
+        "persona_guidelines"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.6,
+      "recall@1": 0.25,
+      "recall@3": 0.5,
+      "recall@5": 0.75,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What degree is Kaif pursuing?",
+      "expected": [
+        "faq",
+        "resume",
+        "education"
+      ],
+      "retrieved": [
+        "faq",
+        "github",
+        "personal",
+        "resume",
+        "persona_guidelines"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.333,
+      "precision@5": 0.4,
+      "recall@1": 0.333,
+      "recall@3": 0.333,
+      "recall@5": 0.667,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What is Kaif's GPA?",
+      "expected": [
+        "resume",
+        "education"
+      ],
+      "retrieved": [
+        "resume",
+        "personal",
+        "github",
+        "resume",
+        "education"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.333,
+      "precision@5": 0.6,
+      "recall@1": 0.5,
+      "recall@3": 0.5,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "Why does Kaif want to join Scaler?",
+      "expected": [
+        "faq",
+        "persona_guidelines",
+        "why_scaler"
+      ],
+      "retrieved": [
+        "why_scaler",
+        "resume",
+        "persona_guidelines",
+        "personal",
+        "resume"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.4,
+      "recall@1": 0.333,
+      "recall@3": 0.667,
+      "recall@5": 0.667,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "How does Kaif's tutoring project relate to Scaler?",
+      "expected": [
+        "projects",
+        "github",
+        "why_scaler"
+      ],
+      "retrieved": [
+        "why_scaler",
+        "github",
+        "persona_guidelines",
+        "faq",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.6,
+      "recall@1": 0.333,
+      "recall@3": 0.667,
+      "recall@5": 0.667,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What did Kaif build at Acro Technologies?",
+      "expected": [
+        "experience",
+        "faq",
+        "resume"
+      ],
+      "retrieved": [
+        "faq",
+        "resume",
+        "experience",
+        "experience",
+        "faq"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 1.0,
+      "recall@1": 0.333,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What problem did Kaif solve with retrieval systems?",
+      "expected": [
+        "experience",
+        "faq",
+        "resume"
+      ],
+      "retrieved": [
+        "experience",
+        "resume",
+        "persona_guidelines",
+        "github",
+        "projects"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.4,
+      "recall@1": 0.333,
+      "recall@3": 0.667,
+      "recall@5": 0.667,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "How much did retrieval relevance improve at Acro?",
+      "expected": [
+        "experience",
+        "faq",
+        "resume"
+      ],
+      "retrieved": [
+        "faq",
+        "experience",
+        "experience",
+        "resume",
+        "faq"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 1.0,
+      "recall@1": 0.333,
+      "recall@3": 0.667,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "Why did Kaif introduce a cross-encoder reranker?",
+      "expected": [
+        "experience",
+        "skills",
+        "resume"
+      ],
+      "retrieved": [
+        "experience",
+        "resume",
+        "experience",
+        "skills",
+        "resume"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 1.0,
+      "recall@1": 0.333,
+      "recall@3": 0.667,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "Tell me about the Intelligent Personalized Tutoring System.",
+      "expected": [
+        "projects",
+        "faq",
+        "github"
+      ],
+      "retrieved": [
+        "github",
+        "github",
+        "projects",
+        "github",
+        "projects"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 1.0,
+      "recall@1": 0.333,
+      "recall@3": 0.667,
+      "recall@5": 0.667,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What technologies were used in the tutoring system?",
+      "expected": [
+        "projects",
+        "skills",
+        "github"
+      ],
+      "retrieved": [
+        "github",
+        "faq",
+        "github",
+        "github",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.8,
+      "recall@1": 0.333,
+      "recall@3": 0.333,
+      "recall@5": 0.333,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What evaluation metrics did the tutoring system achieve?",
+      "expected": [
+        "projects",
+        "github",
+        "why_scaler"
+      ],
+      "retrieved": [
+        "projects",
+        "github",
+        "why_scaler",
+        "github",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 1.0,
+      "recall@1": 0.333,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What design tradeoffs were made in the tutoring system?",
+      "expected": [
+        "projects",
+        "github"
+      ],
+      "retrieved": [
+        "why_scaler",
+        "faq",
+        "github",
+        "resume",
+        "github"
+      ],
+      "precision@1": 0.0,
+      "precision@3": 0.333,
+      "precision@5": 0.4,
+      "recall@1": 0.0,
+      "recall@3": 0.5,
+      "recall@5": 0.5,
+      "mrr": 0.333,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "Does Kaif have experience with RAG systems?",
+      "expected": [
+        "resume",
+        "experience",
+        "projects",
+        "faq",
+        "skills"
+      ],
+      "retrieved": [
+        "github",
+        "faq",
+        "persona_guidelines",
+        "resume",
+        "resume"
+      ],
+      "precision@1": 0.0,
+      "precision@3": 0.333,
+      "precision@5": 0.6,
+      "recall@1": 0.0,
+      "recall@3": 0.2,
+      "recall@5": 0.4,
+      "mrr": 0.5,
+      "hit@1": false,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "Which vector databases has Kaif used?",
+      "expected": [
+        "experience",
+        "resume",
+        "skills",
+        "projects"
+      ],
+      "retrieved": [
+        "resume",
+        "persona_guidelines",
+        "personal",
+        "skills",
+        "projects"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.333,
+      "precision@5": 0.6,
+      "recall@1": 0.25,
+      "recall@3": 0.25,
+      "recall@5": 0.75,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What LLM APIs has Kaif used in production?",
+      "expected": [
+        "projects",
+        "resume",
+        "skills"
+      ],
+      "retrieved": [
+        "skills",
+        "resume",
+        "github",
+        "resume",
+        "resume"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.8,
+      "recall@1": 0.333,
+      "recall@3": 0.667,
+      "recall@5": 0.667,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "Why should we hire Kaif?",
+      "expected": [
+        "experience",
+        "faq",
+        "persona_guidelines"
+      ],
+      "retrieved": [
+        "faq",
+        "faq",
+        "resume",
+        "persona_guidelines",
+        "personal"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.6,
+      "recall@1": 0.333,
+      "recall@3": 0.333,
+      "recall@5": 0.667,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What is Kaif's biggest weakness?",
+      "expected": [
+        "faq",
+        "persona_guidelines"
+      ],
+      "retrieved": [
+        "faq",
+        "resume",
+        "persona_guidelines",
+        "personal",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.667,
+      "precision@5": 0.4,
+      "recall@1": 0.5,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "Are you comfortable with ambiguity?",
+      "expected": [
+        "faq"
+      ],
+      "retrieved": [
+        "faq",
+        "resume",
+        "resume",
+        "github",
+        "faq"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 0.333,
+      "precision@5": 0.4,
+      "recall@1": 1.0,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What are the LangGraph nodes in the tutoring system pipeline?",
+      "expected": [
+        "projects",
+        "github"
+      ],
+      "retrieved": [
+        "github",
+        "projects",
+        "github",
+        "github",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 1.0,
+      "recall@1": 0.5,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What dataset did Kaif use for blood pressure prediction?",
+      "expected": [
+        "projects",
+        "github"
+      ],
+      "retrieved": [
+        "projects",
+        "github",
+        "projects",
+        "github",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 1.0,
+      "recall@1": 0.5,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "How does the tutoring system handle persistent memory?",
+      "expected": [
+        "projects",
+        "github"
+      ],
+      "retrieved": [
+        "projects",
+        "projects",
+        "github",
+        "github",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 1.0,
+      "recall@1": 0.5,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "What is the architecture of the tutoring system?",
+      "expected": [
+        "projects",
+        "github"
+      ],
+      "retrieved": [
+        "github",
+        "github",
+        "github",
+        "why_scaler",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 0.8,
+      "recall@1": 0.5,
+      "recall@3": 0.5,
+      "recall@5": 0.5,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    },
+    {
+      "question": "How can I book a call with Kaif?",
+      "expected": [
+        "faq",
+        "personal",
+        "persona_guidelines"
+      ],
+      "retrieved": [
+        "persona_guidelines",
+        "personal",
+        "faq",
+        "resume",
+        "github"
+      ],
+      "precision@1": 1.0,
+      "precision@3": 1.0,
+      "precision@5": 0.6,
+      "recall@1": 0.333,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0,
+      "hit@1": true,
+      "hit@3": true,
+      "hit@5": true
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+[
+  {
+    "id": 1,
+    "question": "Tell me about Mohd Kaif.",
+    "expected_sections": ["personal", "faq", "education"]
+  },
+  {
+    "id": 2,
+    "question": "Which university does Kaif attend?",
+    "expected_sections": ["education", "faq", "personal", "resume"]
+  },
+  {
+    "id": 3,
+    "question": "What degree is Kaif pursuing?",
+    "expected_sections": ["education", "faq", "resume"]
+  },
+  {
+    "id": 4,
+    "question": "What is Kaif's GPA?",
+    "expected_sections": ["education", "resume"]
+  },
+  {
+    "id": 5,
+    "question": "Why does Kaif want to join Scaler?",
+    "expected_sections": ["why_scaler", "faq", "persona_guidelines"]
+  },
+  {
+    "id": 6,
+    "question": "How does Kaif's tutoring project relate to Scaler?",
+    "expected_sections": ["why_scaler", "projects", "github"]
+  },
+  {
+    "id": 7,
+    "question": "What did Kaif build at Acro Technologies?",
+    "expected_sections": ["experience", "faq", "resume"]
+  },
+  {
+    "id": 8,
+    "question": "What problem did Kaif solve with retrieval systems?",
+    "expected_sections": ["experience", "faq", "resume"]
+  },
+  {
+    "id": 9,
+    "question": "How much did retrieval relevance improve at Acro?",
+    "expected_sections": ["experience", "faq", "resume"]
+  },
+  {
+    "id": 10,
+    "question": "Why did Kaif introduce a cross-encoder reranker?",
+    "expected_sections": ["experience", "resume", "skills"]
+  },
+  {
+    "id": 11,
+    "question": "Tell me about the Intelligent Personalized Tutoring System.",
+    "expected_sections": ["projects", "github", "faq"]
+  },
+  {
+    "id": 12,
+    "question": "What technologies were used in the tutoring system?",
+    "expected_sections": ["projects", "github", "skills"]
+  },
+  {
+    "id": 13,
+    "question": "What evaluation metrics did the tutoring system achieve?",
+    "expected_sections": ["projects", "github", "why_scaler"]
+  },
+  {
+    "id": 14,
+    "question": "What design tradeoffs were made in the tutoring system?",
+    "expected_sections": ["projects", "github"]
+  },
+  {
+    "id": 15,
+    "question": "Does Kaif have experience with RAG systems?",
+    "expected_sections": ["skills", "experience", "projects", "faq", "resume"]
+  },
+  {
+    "id": 16,
+    "question": "Which vector databases has Kaif used?",
+    "expected_sections": ["skills", "experience", "projects", "resume"]
+  },
+  {
+    "id": 17,
+    "question": "What LLM APIs has Kaif used in production?",
+    "expected_sections": ["skills", "resume", "projects"]
+  },
+  {
+    "id": 18,
+    "question": "Why should we hire Kaif?",
+    "expected_sections": ["faq", "persona_guidelines", "experience"]
+  },
+  {
+    "id": 19,
+    "question": "What is Kaif's biggest weakness?",
+    "expected_sections": ["faq", "persona_guidelines"]
+  },
+  {
+    "id": 20,
+    "question": "Are you comfortable with ambiguity?",
+    "expected_sections": ["faq"]
+  },
+  {
+    "id": 21,
+    "question": "What are the LangGraph nodes in the tutoring system pipeline?",
+    "expected_sections": ["github", "projects"]
+  },
+  {
+    "id": 22,
+    "question": "What dataset did Kaif use for blood pressure prediction?",
+    "expected_sections": ["projects", "github"]
+  },
+  {
+    "id": 23,
+    "question": "How does the tutoring system handle persistent memory?",
+    "expected_sections": ["projects", "github"]
+  },
+  {
+    "id": 24,
+    "question": "What is the architecture of the tutoring system?",
+    "expected_sections": ["projects", "github"]
+  },
+  {
+    "id": 25,
+    "question": "How can I book a call with Kaif?",
+    "expected_sections": ["personal", "persona_guidelines", "faq"]
+  }
+]
